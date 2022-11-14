@@ -7,6 +7,8 @@ A library for easy file management in C.
 - **writeFile()**
 - **appendFile()**
 - **emptyFile()**
+- **readFile()**
+- **fileExists**
 
 ### createFile
 Creates an empty file.\
@@ -41,4 +43,22 @@ Takes one argument: **char \*fileName**
 Example:
 ```c
 emptyFile("C:example.txt");
+```
+
+### readFile
+Returns content of a file as char[ ]\
+Takes one argument: **char \*fileName**
+Example:
+```c
+char *content = readFile("C:example.txt")
+```
+
+### fileExists
+Boolean that returns if the file specified exists.\
+Takes one argument: **char \*fileName**
+Example:
+```c
+if (fileExists("C:example.txt")) {
+    //...
+}
 ```
