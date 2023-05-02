@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 void createFile(char *fileName)
 {
-    system((".> %s", fileName));
+    FILE* file_ptr = fopen(fileName, "w");
+    fclose(file_ptr);
+}
+
+bool deleteFile(char *fileName)
+{
+    return (remove(fileName) == 0);
 }
 
 void emptyFile(char *fileName)
@@ -44,7 +51,7 @@ void appendFile(char *fileName, char *content)
 
     if (fptr == NULL)
     {
-        system((".> %s", fileName));
+        createFile(fileName);
     }
 
     fprintf(fptr, "%s", content);
@@ -53,24 +60,16 @@ void appendFile(char *fileName, char *content)
 
 char *readFile(char *fileName) {
     FILE *fptr;
-    char *content = NULL;
-    int fileSize = 0;
-
     fptr = fopen(fileName, "r");
 
-    if (fptr == NULL) {
-        printf("ERROR: Could not open file %s", fileName);
-        exit(1);
+    if (fptr == NULL)
+    {
+        printf("ERROR: Could not read file %s", fileName);
+        return "";
     }
 
-    fseek(fptr, 0, SEEK_END);
-    fileSize = ftell(fptr);
-    rewind(fptr);
-
-    content = (char *)malloc(sizeof(char) * (fileSize + 1));
-    fread(content, sizeof(char), fileSize, fptr);
-    content[fileSize] = '\0';
-
+    char *content = malloc(1000 * sizeof(char));
+    fscanf(fptr, "%[^\n]", content);
     fclose(fptr);
     return content;
 }
